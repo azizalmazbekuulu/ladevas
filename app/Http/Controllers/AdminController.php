@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -69,6 +71,11 @@ class AdminController extends Controller
             $user->registered_at = time();
             $user->avatar = null;
             $user->save();
+
+            event(new Registered($user));
+    
+            Auth::login($user);
+
             return json_encode(['status' => true]);
         }
         return json_encode(['status' => false]);
