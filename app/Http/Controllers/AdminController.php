@@ -57,7 +57,7 @@ class AdminController extends Controller
         This is the number to confirm your registration on Ladevas:
         ". $confirmation_code))
         {
-            return json_encode(['status' => true]);
+            return json_encode(['status' => true, 'user_id' => $user->id]);
         }
         return json_encode(['status' => false]);
     }
