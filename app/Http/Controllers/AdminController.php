@@ -47,6 +47,7 @@ class AdminController extends Controller
             'name' => $request->user_name,
             'user_name' => $request->user_name,
             'email' => $request->email,
+            'registered_at' => null,
             'user_role' => $request->user_role === User::ADMIN || $request->user_role === User::USER ? $request->user_role : User::USER,
             'password' => Hash::make($request->password),
         ]);
@@ -66,13 +67,11 @@ class AdminController extends Controller
 
     public function confirmRegistration(Request $request, User $user)
     {
-        if ($request->code === $user->avatar)
+        if ($request->code === $user->avatar && !$user->registered_at)
         {
             $user->registered_at = time();
             $user->avatar = null;
             $user->save();
-
-            event(new Registered($user));
     
             Auth::login($user);
 
