@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Public Routes
+Route::post('/sendinvitationemail', [AdminController::class, 'sendInvitaionEmail']);
+Route::get('/register', [AdminController::class, 'register']);
+Route::post('/registeruser', [AdminController::class, 'store']);
+Route::post('/confirmregistration/{id}', [AdminController::class, 'confirmRegistration']);
+
+// Protected Routes
+Route::middleware(['auth:api'])->group(function () {
+    Route::match(['post', 'patch'], 'updateprofile/{id}', [ProfileController::class, 'update']);
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
