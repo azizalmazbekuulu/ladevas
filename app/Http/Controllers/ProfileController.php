@@ -11,6 +11,9 @@ class ProfileController extends Controller
 {
     public function update(Request $request, User $user)
     {
+        if ($user != auth()->user()) {
+            return json_encode(['status' => 'Invalid user profile']);
+        }
         $request->validate([
             'name' => 'string|max:255',
             'user_name' =>  'string|min:4|max:20',

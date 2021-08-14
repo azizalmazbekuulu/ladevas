@@ -21,6 +21,7 @@ Route::post('/sendinvitationemail', [AdminController::class, 'sendInvitaionEmail
 Route::get('/register', [AdminController::class, 'register']);
 Route::post('/registeruser', [AdminController::class, 'store']);
 Route::post('/confirmregistration/{user}', [AdminController::class, 'confirmRegistration']);
+Route::post('/loginuser', [AdminController::class, 'loginUser']);
 
 // Protected Routes
 Route::middleware(['auth:api'])->group(function () {

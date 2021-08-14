@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    public function loginUser(Request $request)
+    {
+        $user = User::firstwhere('user_name', $request->user_name);
+        if ($user->password === Hash::make($request->password)) {
+            Auth::login($user);
+            return json_encode(["status" => "Login success"]);
+        }
+        return json_encode(["status" => "Login error"]);
+    }
+
     public function sendInvitaionEmail()
     {
         $email = $_POST['email'];
