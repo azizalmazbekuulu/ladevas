@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function loginUser(LoginRequest $request)
+    public function loginUser(Request $request)
     {
-        $request->authenticate();
-        $request->session()->regenerate();
+        if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password])) {
+            return json_encode(["status" => "Login success"]);
+        }
         return json_encode(["status" => "Login error"]);
     }
 
