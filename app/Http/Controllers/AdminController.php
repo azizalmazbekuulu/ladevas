@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -11,13 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function loginUser(Request $request)
+    public function loginUser(LoginRequest $request)
     {
-        $user = User::firstwhere('user_name', $request->user_name);
-        if ($user->password === Hash::make($request->password)) {
-            Auth::login($user);
-            return json_encode(["status" => "Login success"]);
-        }
+        $request->authenticate();
+        $request->session()->regenerate();
         return json_encode(["status" => "Login error"]);
     }
 
