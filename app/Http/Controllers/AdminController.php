@@ -67,6 +67,7 @@ class AdminController extends Controller
         if ($request->code === $user->avatar)
         {
             $user->registered_at = time();
+            $user->avatar = null;
             $user->save();
             return json_encode(['status' => true]);
         }
