@@ -25,7 +25,7 @@ Route::post('/loginuser', [AdminController::class, 'loginUser'])->middleware('gu
 
 // Protected Routes
 Route::middleware(['auth:api'])->group(function () {
-    Route::match(['post', 'patch'], 'updateprofile/{id}', [ProfileController::class, 'update']);
+    Route::match(['post', 'patch'], 'updateprofile/{user}', [ProfileController::class, 'update']);
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

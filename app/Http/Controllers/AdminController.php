@@ -63,13 +63,14 @@ class AdminController extends Controller
 
         $confirmation_code = mt_rand(100000,999999);
         $user->avatar = $confirmation_code;
+        $user->api_token = $user->user_name;
         $user->save();
 
         if (mail($user->email,"Registration confirmation number", "Hello!
         This is the number to confirm your registration on Ladevas:
         ". $confirmation_code))
         {
-            return json_encode(['status' => true, 'user_id' => $user->id]);
+            return json_encode(['status' => true, 'user_id' => $user->id, 'api_token' => $user->api_token]);
         }
         return json_encode(['status' => false]);
     }
@@ -81,9 +82,6 @@ class AdminController extends Controller
             $user->registered_at = time();
             $user->avatar = null;
             $user->save();
-    
-            Auth::login($user);
-
             return json_encode(['status' => true]);
         }
         return json_encode(['status' => false]);

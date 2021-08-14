@@ -22,12 +22,10 @@ class ProfileController extends Controller
             'password' => [Rules\Password::defaults()],
         ]);
         $user->update([
-            'name' => $request->name,
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'user_role' => $request->user_role === User::ADMIN || $request->user_role === User::USER ? $request->user_role : User::USER,
-            'registered_at' => time(),
-            'password' => Hash::make($request->password),
+            'name' => $request->name,// != null ? $request->name : $user->name,
+            'user_name' => $request->user_name != null ? $request->name : $user->name,
+            'email' => $request->email ? $request->name : $user->name,
+            'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
         if ($request->file('avatar')) {
