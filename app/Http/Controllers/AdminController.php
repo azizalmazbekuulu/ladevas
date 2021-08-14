@@ -15,9 +15,9 @@ class AdminController extends Controller
         $link = url("/api/register?email=$email");
         $message = "
             Hi!
-            This is an invtation to register:<br>
+            This is an invtation to register:
             $link
-            <br>Greetings!<br>
+            Greetings!
             Ladevas team!
         ";
         if( mail($email, "Invitation to register on Ladevas", $message)) {
@@ -53,7 +53,9 @@ class AdminController extends Controller
         $user->avatar = $confirmation_code;
         $user->save();
 
-        if (mail($user->email,"Registration confirmation number", "Hello!<br>This is the number to confirm your registration on Ladevas<br>". $confirmation_code ."<br>"))
+        if (mail($user->email,"Registration confirmation number", "Hello!
+        This is the number to confirm your registration on Ladevas:
+        ". $confirmation_code))
         {
             return json_encode(['status' => true]);
         }
