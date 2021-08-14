@@ -12,15 +12,15 @@ class ProfileController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'string|max:255',
             'user_name' =>  'string|min:4|max:20',
             'avatar' => 'image|dimensions:width=256,height=256',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => 'string|email|max:255|unique:users',
+            'password' => [Rules\Password::defaults()],
         ]);
         $user->update([
             'name' => $request->name,
-            'user_name' => $request->name,
+            'user_name' => $request->user_name,
             'email' => $request->email,
             'user_role' => $request->user_role === User::ADMIN || $request->user_role === User::USER ? $request->user_role : User::USER,
             'registered_at' => time(),
