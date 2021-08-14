@@ -67,7 +67,7 @@ class AdminController extends Controller
 
     public function confirmRegistration(Request $request, User $user)
     {
-        if ($request->code === $user->avatar && !$user->registered_at)
+        if ($request->code === $user->avatar)
         {
             $user->registered_at = time();
             $user->avatar = null;
